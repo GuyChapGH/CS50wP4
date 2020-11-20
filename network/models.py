@@ -21,3 +21,14 @@ class Likes(models.Model):
 
     def __str__(self):
         return f"{self.post.id}: Likes: {self.count}"
+
+    def add_like(self):
+        self.count += 1
+
+
+class Follows(models.Model):
+    follower = models.ForeignKey("User", on_delete=models.CASCADE, related_name="following")
+    following = models.ForeignKey("User", on_delete=models.CASCADE, related_name="follower")
+
+    def __str__(self):
+        return f"{self.follower} following {self.following}"
