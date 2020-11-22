@@ -25,6 +25,9 @@ class Likes(models.Model):
     def add_like(self):
         self.count += 1
 
+    def subtract_like(self):
+        self.count -= 1
+
 
 class Follows(models.Model):
     follower = models.ForeignKey("User", on_delete=models.CASCADE, related_name="following")
