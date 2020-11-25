@@ -1,5 +1,24 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+
+    <h1>All Posts</h1>
+
+<!-- for some reason link to stylesheet is not working and id="newpost" has no effect-->
+    <div id="newpost">
+        <h3>New Post</h3>
+
+        <form action = "{% url 'index' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input class="form-control" autofocus type="textarea" name="content">
+        </div>
+
+        <input class="btn btn-primary" type="submit" value="Post">
+
+        </form>
+    </div>
+
+
+
 {% endblock %}

@@ -5,10 +5,31 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User
+from .models import Post
 
 
 def index(request):
-    return render(request, "network/index.html")
+    if request.user.is_authenticated:
+        if request.method == "POST":
+
+            # Get values for current user and post content from form
+            current_user = request.user
+            content = request.POST["content"]
+
+            # Create new post and save to database
+            p = Post(user=current_user, content=content)
+            p.save()
+
+            # Return to index page
+            return HttpResponseRedirect(reverse("index"))
+
+        else:
+            # If accessed by GET request return to index page. (if use redirect here get infinite loop??)
+            return render(request, "network/index.html")
+
+    else:
+        # If user not logged in redirect to login page
+        return render(request, "network/login.html")
 
 
 def login_view(request):
