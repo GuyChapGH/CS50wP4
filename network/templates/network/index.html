@@ -9,13 +9,9 @@
         <h3>New Post</h3>
 
         <form action = "{% url 'index' %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <input class="form-control" autofocus type="textarea" name="content">
-        </div>
-
-        <input class="btn btn-primary" type="submit" value="Post">
-
+            {% csrf_token %}
+            <textarea autofocus name="content"></textarea>
+            <input class="btn btn-primary" type="submit" value="Post">
         </form>
     </div>
 

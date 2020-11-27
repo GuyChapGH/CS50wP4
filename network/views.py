@@ -6,6 +6,7 @@ from django.urls import reverse
 
 from .models import User
 from .models import Post
+from .models import Likes
 
 
 def index(request):
@@ -19,6 +20,10 @@ def index(request):
             # Create new post and save to database
             p = Post(user=current_user, content=content)
             p.save()
+
+            # Create corresponding Likes object and save to database
+            like = Likes(post=p)
+            like.save()
 
             # Return to index page
             return HttpResponseRedirect(reverse("index"))
