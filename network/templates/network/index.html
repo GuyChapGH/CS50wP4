@@ -14,7 +14,13 @@
             <input class="btn btn-primary" type="submit" value="Post">
         </form>
     </div>
-
+    <hr>
+    {% for pl in posts_likes %}
+        {{pl.post.user.username}} {{pl.post.timestamp}}
+        {{pl.post.content}}
+        <p>Likes: {{pl.count}}</p>
+        <br>
+    {% endfor %}
 
 
 {% endblock %}

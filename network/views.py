@@ -30,7 +30,19 @@ def index(request):
 
         else:
             # If accessed by GET request return to index page. (if use redirect here get infinite loop??)
-            return render(request, "network/index.html")
+
+            # N.B. This call seems the wrong way
+            # round. Should be querying the Post objects and related Likes rather
+            # Likes and related posts. It is a result of how I defined the models but
+            # the relationship between Post and Likes is OneToOne so it doesnt actually matter
+            # for now.
+
+            # Get all Likes and corresponding posts.
+            posts_likes = Likes.objects.select_related('post')
+
+            return render(request, "network/index.html", {
+                "posts_likes": posts_likes
+            })
 
     else:
         # If user not logged in redirect to login page
