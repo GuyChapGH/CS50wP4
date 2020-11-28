@@ -6,7 +6,6 @@ from django.urls import reverse
 
 from .models import User
 from .models import Post
-from .models import Likes
 
 
 def index(request):
@@ -21,27 +20,17 @@ def index(request):
             p = Post(user=current_user, content=content)
             p.save()
 
-            # Create corresponding Likes object and save to database
-            like = Likes(post=p)
-            like.save()
-
             # Return to index page
             return HttpResponseRedirect(reverse("index"))
 
         else:
             # If accessed by GET request return to index page. (if use redirect here get infinite loop??)
 
-            # N.B. This call seems the wrong way
-            # round. Should be querying the Post objects and related Likes rather
-            # Likes and related posts. It is a result of how I defined the models but
-            # the relationship between Post and Likes is OneToOne so it doesnt actually matter
-            # for now.
-
-            # Get all Likes and corresponding posts.
-            posts_likes = Likes.objects.select_related('post')
+            # Get all posts.
+            posts = Post.objects.all()
 
             return render(request, "network/index.html", {
-                "posts_likes": posts_likes
+                "posts": posts
             })
 
     else:

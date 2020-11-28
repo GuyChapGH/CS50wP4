@@ -5,6 +5,7 @@
     <h1>All Posts</h1>
 
 <!-- for some reason link to stylesheet is not working and id="newpost" has no effect-->
+<!-- Solved. Needed to disable cache in Chrome -->
     <div id="newpost">
         <h3>New Post</h3>
 
@@ -15,10 +16,10 @@
         </form>
     </div>
     <hr>
-    {% for pl in posts_likes %}
-        {{pl.post.user.username}} {{pl.post.timestamp}}
-        {{pl.post.content}}
-        <p>Likes: {{pl.count}}</p>
+    {% for post in posts %}
+        {{post.user.username}} {{post.timestamp}}
+        {{post.content}}
+        <p>Likes: {{post.likes}}</p>
         <br>
     {% endfor %}
 
