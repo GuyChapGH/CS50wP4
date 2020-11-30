@@ -27,7 +27,7 @@ def index(request):
             # If accessed by GET request return to index page. (if use redirect here get infinite loop??)
 
             # Get all posts.
-            posts = Post.objects.all()
+            posts = Post.objects.all().order_by('-timestamp')
 
             return render(request, "network/index.html", {
                 "posts": posts

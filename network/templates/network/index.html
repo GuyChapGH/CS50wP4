@@ -6,7 +6,7 @@
 
 <!-- for some reason link to stylesheet is not working and id="newpost" has no effect-->
 <!-- Solved. Needed to disable cache in Chrome -->
-    <div id="newpost">
+    <div class="newpost">
         <h3>New Post</h3>
 
         <form action = "{% url 'index' %}" method="post">
@@ -17,10 +17,17 @@
     </div>
     <hr>
     {% for post in posts %}
-        {{post.user.username}} {{post.timestamp}}
-        {{post.content}}
+
+    <div class = "newpost">
+        <a href="#">{{post.user.username}}</a><br>
+        <b>{{post.content}}</b> <br>
+        {{post.timestamp}} <br>
         <p>Likes: {{post.likes}}</p>
-        <br>
+    </div>
+
+    {% empty %}
+        <p> No posts </p>
+
     {% endfor %}
 
 
