@@ -19,7 +19,7 @@
     {% for post in posts %}
 
     <div class = "newpost">
-        <a href="#">{{post.user.username}}</a><br>
+        <a href="{% url 'profile' post.user.id %}">{{post.user.username}}</a><br>
         <b>{{post.content}}</b> <br>
         {{post.timestamp}} <br>
         <p>Likes: {{post.likes}}</p>

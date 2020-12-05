@@ -38,6 +38,20 @@ def index(request):
         return render(request, "network/login.html")
 
 
+def profile(request, user_id):
+    if request.method == "POST":
+        # Remove this duplicate when ready with form handling code
+        user_posts = Post.objects.filter(user_id=user_id).order_by('-timestamp')
+        return render(request, "network/profile.html", {
+            "user_posts": user_posts
+        })
+    else:
+        user_posts = Post.objects.filter(user_id=user_id).order_by('-timestamp')
+        return render(request, "network/profile.html", {
+            "user_posts": user_posts
+        })
+
+
 def login_view(request):
     if request.method == "POST":
 
