@@ -1,0 +1,35 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+    <h1>Profile</h1>
+
+<!-- for some reason link to stylesheet is not working and id="newpost" has no effect-->
+<!-- Solved. Needed to disable cache in Chrome -->
+    <div class="newpost">
+        <h3>{{ profile_user.username }}</h3><br>
+        <p>Followers: {{ followers_count }} Following: {{ following_count }}</p>
+
+        <!--<form action = "{% url 'index' %}" method="post">
+            {% csrf_token %}
+            <textarea autofocus name="content"></textarea>
+            <input class="btn btn-primary" type="submit" value="Post">
+        </form> -->
+    </div>
+    <hr>
+    {% for post in user_posts %}
+
+    <div class = "newpost">
+        {{post.user.username}}<br>
+        <b>{{post.content}}</b> <br>
+        {{post.timestamp}} <br>
+        <p>Likes: {{post.likes}}</p>
+    </div>
+
+    {% empty %}
+        <p> No posts </p>
+
+    {% endfor %}
+
+
+{% endblock %}

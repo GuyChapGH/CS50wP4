@@ -1,11 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User
 from .models import Post
+from .models import Follows
 
 
 def index(request):
@@ -46,8 +47,26 @@ def profile(request, user_id):
             "user_posts": user_posts
         })
     else:
+        try:
+            # Get user object based on user_id
+            profile_user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            raise Http404("User not found.")
+
+        # Count the number of followers belonging to the profile user
+        followers_count = Follows.objects.filter(following_id=user_id).count()
+
+        # Count the number of users that the profile user is following
+        following_count = Follows.objects.filter(follower_id=user_id).count()
+
+        # Find posts belonging to the profile user
         user_posts = Post.objects.filter(user_id=user_id).order_by('-timestamp')
+
+        # Render HTML with data
         return render(request, "network/profile.html", {
+            "profile_user": profile_user,
+            "followers_count": followers_count,
+            "following_count": following_count,
             "user_posts": user_posts
         })
 
