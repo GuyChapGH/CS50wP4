@@ -47,6 +47,12 @@ def profile(request, user_id):
             "user_posts": user_posts
         })
     else:
+
+        # Controlling display of Follow and Unfollow buttons
+        flag_follow = "disabled"
+        flag_unfollow = "disabled"
+
+        # Getting user object to provide username of profile
         try:
             # Get user object based on user_id
             profile_user = User.objects.get(pk=user_id)
@@ -64,6 +70,8 @@ def profile(request, user_id):
 
         # Render HTML with data
         return render(request, "network/profile.html", {
+            "flag_follow": flag_follow,
+            "flag_unfollow": flag_unfollow,
             "profile_user": profile_user,
             "followers_count": followers_count,
             "following_count": following_count,
