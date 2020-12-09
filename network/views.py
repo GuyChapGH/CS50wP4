@@ -40,12 +40,32 @@ def index(request):
 
 
 def profile(request, user_id):
+
     if request.method == "POST":
-        # Remove this duplicate when ready with form handling code
-        user_posts = Post.objects.filter(user_id=user_id).order_by('-timestamp')
-        return render(request, "network/profile.html", {
-            "user_posts": user_posts
-        })
+        current_user = request.user
+        # Getting profile_user object
+        try:
+            # Get user object based on user_id
+            profile_user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            raise Http404("User not found.")
+
+        if (Follows.objects.filter(follower=current_user, following=profile_user).exists() and request.POST.get("toggle")):
+            # Retrieving Follows object for current_user following profile_user
+            f_id = Follows.objects.filter(follower=current_user,
+                                          following=profile_user).values('id')[0]['id']
+            f = Follows.objects.get(id=f_id)
+            # Delete from database
+            f.delete()
+
+        if (not Follows.objects.filter(follower=current_user, following=profile_user).exists() and request.POST.get("toggle")):
+            # Creating Follows object for current_user following profile_user
+            f = Follows(follower=current_user, following=profile_user)
+            # Commit to database
+            f.save()
+
+        return HttpResponseRedirect(reverse("profile", args=(user_id,)))
+
     else:
         # Getting user object to provide username of profile
         try:
@@ -68,8 +88,11 @@ def profile(request, user_id):
         # flag_unfollow = "disabled"
 
         current_user = request.user
+        # If Follows object for current_user following profile_user exists provide
+        # Unfollow button
         if (Follows.objects.filter(follower=current_user, following=profile_user).exists()):
             button_name = "Unfollow"
+        # If Follows object does not exist provide Follow button
         else:
             button_name = "Follow"
 

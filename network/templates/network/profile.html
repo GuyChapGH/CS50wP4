@@ -11,12 +11,10 @@
         <p>Followers: {{ followers_count }} Following: {{ following_count }}</p><br>
     <!--    <button type=button class="btn btn-primary" {{ flag_follow }}>Follow</button>
         <button type=button class="btn btn-primary" {{ flag_unfollow }}>Unfollow</button> -->
-        <button type=input class="btn btn-primary" name={{ button_name }}>{{ button_name }}</button>
-        <!--<form action = "{% url 'index' %}" method="post">
-            {% csrf_token %}
-            <textarea autofocus name="content"></textarea>
-            <input class="btn btn-primary" type="submit" value="Post">
-        </form> -->
+        <form action = "{% url 'profile' profile_user.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary" name="toggle" value="toggle_follow">{{ button_name }}</button>
+        </form>
     </div>
     <hr>
     {% for post in user_posts %}
