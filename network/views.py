@@ -52,13 +52,11 @@ def profile(request, user_id):
 
         if (Follows.objects.filter(follower=current_user, following=profile_user).exists() and request.POST.get("toggle")):
             # Retrieving Follows object for current_user following profile_user
-            f_id = Follows.objects.filter(follower=current_user,
-                                          following=profile_user).values('id')[0]['id']
-            f = Follows.objects.get(id=f_id)
+            f = Follows.objects.get(follower=current_user, following=profile_user)
             # Delete from database
             f.delete()
 
-        if (not Follows.objects.filter(follower=current_user, following=profile_user).exists() and request.POST.get("toggle")):
+        elif (not Follows.objects.filter(follower=current_user, following=profile_user).exists() and request.POST.get("toggle")):
             # Creating Follows object for current_user following profile_user
             f = Follows(follower=current_user, following=profile_user)
             # Commit to database
@@ -83,10 +81,7 @@ def profile(request, user_id):
         # Find posts belonging to the profile user
         user_posts = Post.objects.filter(user_id=user_id).order_by('-timestamp')
 
-        # Controlling display of Follow and Unfollow buttons
-        # flag_follow = "disabled"
-        # flag_unfollow = "disabled"
-
+        # Getting current user
         current_user = request.user
         # If Follows object for current_user following profile_user exists provide
         # Unfollow button
@@ -98,8 +93,6 @@ def profile(request, user_id):
 
         # Render HTML with data
         return render(request, "network/profile.html", {
-            # "flag_follow": flag_follow,
-            # "flag_unfollow": flag_unfollow,
             "button_name": button_name,
             "profile_user": profile_user,
             "followers_count": followers_count,
