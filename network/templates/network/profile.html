@@ -9,10 +9,14 @@
     <div class="newpost">
         <h3>{{ profile_user.username }}</h3><br>
         <p>Followers: {{ followers_count }} Following: {{ following_count }}</p><br>
-        <form action = "{% url 'profile' profile_user.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-primary" name="toggle" value="toggle_follow">{{ button_name }}</button>
-        </form>
+        {% if current_user.id == profile_user.id %}
+            <br><br>
+        {% else %}
+            <form action = "{% url 'profile' profile_user.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary" name="toggle" value="toggle_follow">{{ button_name }}</button>
+            </form>
+        {% endif %}
     </div>
     <hr>
     {% for post in user_posts %}

@@ -94,6 +94,7 @@ def profile(request, user_id):
         # Render HTML with data
         return render(request, "network/profile.html", {
             "button_name": button_name,
+            "current_user": current_user,
             "profile_user": profile_user,
             "followers_count": followers_count,
             "following_count": following_count,
