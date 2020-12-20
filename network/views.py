@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
@@ -100,6 +101,29 @@ def profile(request, user_id):
             "following_count": following_count,
             "user_posts": user_posts
         })
+
+
+@login_required
+def following(request):
+    # Get current user
+    current_user = request.user
+
+    # Create empty queryset
+    p = Post.objects.none()
+
+    # Iterate through queryset
+    for user in Follows.objects.filter(follower=current_user):
+
+        # Concatenate posts from each user
+        p = Post.objects.filter(user=user.following) | p
+
+    # Order posts in reverse chronological order
+    posts_following = p.order_by('-timestamp')
+
+    # Render HTML with data
+    return render(request, "network/following.html", {
+        "posts_following": posts_following
+    })
 
 
 def login_view(request):
