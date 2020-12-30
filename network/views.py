@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.urls import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import User
 from .models import Post
@@ -29,8 +30,23 @@ def index(request):
             # If accessed by GET request return to index page. (if use redirect here get infinite loop??)
 
             # Get all posts.
-            posts = Post.objects.all().order_by('-timestamp')
+            posts_list = Post.objects.all().order_by('-timestamp')
 
+            # Get page from GET request. Default value equals 1 if no page given
+            page = request.GET.get('page', 1)
+
+            # Paginate posts_list in pages of 10 posts
+            paginator = Paginator(posts_list, 10)
+
+            # Create page of posts. Handling exceptions PageNotAnInteger and EmptyPage
+            try:
+                posts = paginator.page(page)
+            except PageNotAnInteger:
+                posts = paginator.page(1)
+            except EmptyPage:
+                posts = paginator.page(paginator.num_pages)
+
+            # Render HTML with data
             return render(request, "network/index.html", {
                 "posts": posts
             })
