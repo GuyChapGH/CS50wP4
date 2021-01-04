@@ -96,7 +96,7 @@ def profile(request, user_id):
         following_count = Follows.objects.filter(follower_id=user_id).count()
 
         # Find posts belonging to the profile user
-        user_posts = Post.objects.filter(user_id=user_id).order_by('-timestamp')
+        user_posts_list = Post.objects.filter(user_id=user_id).order_by('-timestamp')
 
         # Getting current user
         current_user = request.user
@@ -107,6 +107,20 @@ def profile(request, user_id):
         # If Follows object does not exist provide Follow button
         else:
             button_name = "Follow"
+
+        # Pagination. Get page from GET request. Default value equals 1 if no page given
+        page = request.GET.get('page', 1)
+
+        # Paginate posts_list in pages of 10 posts
+        paginator = Paginator(user_posts_list, 10)
+
+        # Create page of user_posts. Handling exceptions PageNotAnInteger and EmptyPage
+        try:
+            user_posts = paginator.page(page)
+        except PageNotAnInteger:
+            user_posts = paginator.page(1)
+        except EmptyPage:
+            user_posts = paginator.page(paginator.num_pages)
 
         # Render HTML with data
         return render(request, "network/profile.html", {
