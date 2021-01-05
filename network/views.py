@@ -32,7 +32,7 @@ def index(request):
             # Get all posts.
             posts_list = Post.objects.all().order_by('-timestamp')
 
-            # Get page from GET request. Default value equals 1 if no page given
+            # Pagination. Get page from GET request. Default value equals 1 if no page given
             page = request.GET.get('page', 1)
 
             # Paginate posts_list in pages of 10 posts
@@ -111,7 +111,7 @@ def profile(request, user_id):
         # Pagination. Get page from GET request. Default value equals 1 if no page given
         page = request.GET.get('page', 1)
 
-        # Paginate posts_list in pages of 10 posts
+        # Paginate user_posts_list in pages of 10 posts
         paginator = Paginator(user_posts_list, 10)
 
         # Create page of user_posts. Handling exceptions PageNotAnInteger and EmptyPage
@@ -148,7 +148,21 @@ def following(request):
         p = Post.objects.filter(user=user.following) | p
 
     # Order posts in reverse chronological order
-    posts_following = p.order_by('-timestamp')
+    posts_following_list = p.order_by('-timestamp')
+
+    # Pagination. Get page from GET request. Default value equals 1 if no page given
+    page = request.GET.get('page', 1)
+
+    # Paginate posts_following_list in pages of 10 posts
+    paginator = Paginator(posts_following_list, 10)
+
+    # Create page of posts_following. Handling exceptions PageNotAnInteger and EmptyPage
+    try:
+        posts_following = paginator.page(page)
+    except PageNotAnInteger:
+        posts_following = paginator.page(1)
+    except EmptyPage:
+        posts_following = paginator.page(paginator.num_pages)
 
     # Render HTML with data
     return render(request, "network/following.html", {
