@@ -1,4 +1,6 @@
 {% extends "network/layout.html" %}
+{% load static %}
+
 
 {% block body %}
 
@@ -18,7 +20,7 @@
     <hr>
     {% for post in posts %}
 
-    <div class = "newpost">
+    <div class = "allpost">
         <a href="{% url 'profile' post.user.id %}">{{post.user.username}}</a><br>
         <b>{{post.content}}</b> <br>
         {{post.timestamp}} <br>
@@ -42,4 +44,10 @@
         </ul>
     </nav>
     {% endif %}
+
+    {% block script %}
+        <script src="{% static 'network/edit.js' %}"></script>
+    {% endblock %}
+
+
 {% endblock %}

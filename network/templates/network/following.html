@@ -6,7 +6,7 @@
 
     {% for post in posts_following %}
 
-    <div class = "newpost">
+    <div class = "allpost">
         <a href="{% url 'profile' post.user.id %}">{{post.user.username}}</a><br>
         <b>{{post.content}}</b> <br>
         {{post.timestamp}} <br>
