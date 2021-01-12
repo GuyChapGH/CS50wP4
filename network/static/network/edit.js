@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
         a.appendChild(linkText);
         a.title = "Edit";
         a.href = "#";
-        //document.querySelector('.allpost').appendChild(a);
-        document.body.appendChild(a);
+        div_content.querySelector('#post').appendChild(a);
+        //document.body.appendChild(a);
         //console.log (div_content);
 
 
