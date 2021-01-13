@@ -16,16 +16,43 @@ document.addEventListener('DOMContentLoaded', function() {
     // Iterate through array of allpost divs
     posts_arr.forEach(add_edit_link);
 
-    // TRY to add edit link to each allpost div. (NOT WORKING).
+    // Add edit link to each allpost div.
     function add_edit_link (div_content) {
-        var a = document.createElement('a');
-        var linkText = document.createTextNode("Edit");
-        a.appendChild(linkText);
-        a.title = "Edit";
-        a.href = "#";
-        div_content.querySelector('#post').appendChild(a);
-        //document.body.appendChild(a);
-        //console.log (div_content);
+
+        // Get text content of post_user from allposts div
+        const post_user = div_content.querySelector('#post_user').textContent;
+        //console.log(post_user);
+
+        // Get text content of current user from layout.html
+        const current_user = document.querySelector('#current_user').textContent;
+        //console.log(current_user);
+
+        // Test if post_user is the same as current_user
+        if (post_user == current_user)  {
+            // Create anchor object
+            var a = document.createElement('a');
+            // Create text for anchor object
+            var linkText = document.createTextNode("Edit");
+            // Append text to anchor
+            a.appendChild(linkText);
+            // Set values of anchor
+            a.title = "Edit";
+            a.href = "#";
+            //a.id = "edit"
+            // Append anchor object to each allpost div
+            div_content.querySelector('#post').appendChild(a);
+
+            // Add on click function
+            a.addEventListener('click', function()  {
+                alert("Edit link was clicked!");
+            })
+
+
+
+
+        }
+
+
 
 
     }

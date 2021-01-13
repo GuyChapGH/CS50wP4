@@ -21,7 +21,7 @@
     {% for post in posts %}
 
     <div class = "allpost">
-        <a href="{% url 'profile' post.user.id %}">{{post.user.username}}</a><br>
+        <a id="post_user" href="{% url 'profile' post.user.id %}">{{post.user.username}}</a><br>
         <span id="post"></span><br>
         <b>{{post.content}}</b> <br>
         {{post.timestamp}} <br>
