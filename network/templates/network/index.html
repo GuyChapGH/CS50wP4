@@ -23,8 +23,8 @@
     <div class = "allpost">
         <a id="post_user" href="{% url 'profile' post.user.id %}">{{post.user.username}}</a><br>
         <span id="post"></span><br>
-        <b>{{post.content}}</b> <br>
-        {{post.timestamp}} <br>
+        <b id="post_content">{{post.content}}</b> <br>
+        <p>{{post.timestamp}}</p>
         <p>Likes: {{post.likes}}</p>
     </div>
 

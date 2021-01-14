@@ -44,7 +44,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Add on click function
             a.addEventListener('click', function()  {
-                alert("Edit link was clicked!");
+                //alert("Edit link was clicked!");
+                // Create textarea element
+                var text_area = document.createElement("textarea");
+                // Get post_content node
+                var post_content = div_content.querySelector('#post_content');
+                // Get text from post_content and insert in text_area
+                text_area.innerHTML = post_content.textContent;
+                // Replace post_content with text_area
+                post_content.parentNode.replaceChild(text_area, post_content);
+                // autofocus on text_area
+                text_area.focus();
+
+                //Add a save button
+                const save_btn = document.createElement("button");
+                save_btn.innerHTML = "Save";
+                save_btn.className = "btn btn-primary";
+
+                // Append save button
+                text_area.parentNode.append(save_btn);
+
+                //Add on click function
+                save_btn.addEventListener('click', function()   {
+                    alert("Save button was clicked!");
+                })
+
             })
 
 
