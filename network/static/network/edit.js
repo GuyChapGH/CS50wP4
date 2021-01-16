@@ -30,20 +30,26 @@ document.addEventListener('DOMContentLoaded', function() {
         // Test if post_user is the same as current_user
         if (post_user == current_user)  {
             // Create anchor object
-            var a = document.createElement('a');
+            //var a = document.createElement('a');
             // Create text for anchor object
-            var linkText = document.createTextNode("Edit");
+            //var linkText = document.createTextNode("Edit");
             // Append text to anchor
-            a.appendChild(linkText);
+            //a.appendChild(linkText);
             // Set values of anchor
-            a.title = "Edit";
-            a.href = "#";
+            //a.title = "Edit";
+            //a.href = "#";
             //a.id = "edit"
-            // Append anchor object to each allpost div
-            div_content.querySelector('#post').appendChild(a);
+
+            //Create edit button
+            const edit_btn = document.createElement("button");
+            edit_btn.innerHTML = "Edit";
+            edit_btn.className = "btn btn-sm btn-outline-primary";
+
+            // Append button to each allpost div
+            div_content.querySelector('#post').appendChild(edit_btn);
 
             // Add on click function
-            a.addEventListener('click', function()  {
+            edit_btn.addEventListener('click', function()  {
                 //alert("Edit link was clicked!");
                 // Create textarea element
                 var text_area = document.createElement("textarea");
@@ -66,7 +72,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 //Add on click function
                 save_btn.addEventListener('click', function()   {
-                    alert("Save button was clicked!");
+                    //Capture post id from index.html
+                    id = div_content.querySelector('#post').dataset.id;
+                    console.log("The post id is: " + id);
+                    //NEXT need to use the post id to access API using fetch
+                    //alert("Save button was clicked!");
                 })
 
             })
