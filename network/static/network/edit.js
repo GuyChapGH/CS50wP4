@@ -1,9 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    //console.log("hello world!");
-    //alert("Hello, world!");
-
-    //const post = document.querySelector('.allpost');
-    //console.log(post);
 
     // Select the posts from the document
     var posts = document.getElementsByClassName("allpost");
@@ -29,16 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Test if post_user is the same as current_user
         if (post_user == current_user)  {
-            // Create anchor object
-            //var a = document.createElement('a');
-            // Create text for anchor object
-            //var linkText = document.createTextNode("Edit");
-            // Append text to anchor
-            //a.appendChild(linkText);
-            // Set values of anchor
-            //a.title = "Edit";
-            //a.href = "#";
-            //a.id = "edit"
 
             //Create edit button
             const edit_btn = document.createElement("button");
@@ -50,9 +35,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Add on click function
             edit_btn.addEventListener('click', function()  {
-                //alert("Edit link was clicked!");
+
                 // Create textarea element
                 var text_area = document.createElement("textarea");
+                // Add id for reference
+                text_area.id = "text_area"
+
                 // Get post_content node
                 var post_content = div_content.querySelector('#post_content');
                 // Get text from post_content and insert in text_area
@@ -74,9 +62,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 save_btn.addEventListener('click', function()   {
                     //Capture post id from index.html
                     id = div_content.querySelector('#post').dataset.id;
-                    console.log("The post id is: " + id);
-                    //NEXT need to use the post id to access API using fetch
-                    //alert("Save button was clicked!");
+                    // console.log("The post id is: " + id);
+
+                    //Ensure post_id is integer and not string
+                    post_id = parseInt(id);
+                    // Get edited content from text_area. NOT PICKING UP EDITED TEXT!!
+                    var content = div_content.querySelector('#text_area').innerHTML;
+                    // Test purposes
+                    console.log(content);
+
+                    //POST request
+                    fetch(`/posts/${post_id}`,   {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            //content: "EDITED"
+                            content: `${content}`
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log(result);
+                    });
+
+
+
                 })
 
             })

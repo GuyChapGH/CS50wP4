@@ -1,10 +1,12 @@
+import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import User
 from .models import Post
@@ -168,6 +170,33 @@ def following(request):
     return render(request, "network/following.html", {
         "posts_following": posts_following
     })
+
+
+@csrf_exempt
+@login_required
+def post(request, post_id):
+
+    # Query for requested post
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
+
+    # Return post contents
+    if request.method == "GET":
+        return JsonResponse({"error": "Not completed this yet."})
+        # return JsonResponse(post.serialize())
+
+    # Update content of post
+    elif request.method == "POST":
+        data = json.loads(request.body)
+        if data.get("content") is not None:
+            post.content = data["content"]
+        post.save()
+        return JsonResponse({"message": "Post successfully updated."}, status=201)
+
+    else:
+        return JsonResponse({"error": "GET or POST request required."}, status=400)
 
 
 def login_view(request):
