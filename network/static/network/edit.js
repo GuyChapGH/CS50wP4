@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     //Ensure post_id is integer and not string
                     post_id = parseInt(id);
-                    // Get edited content from text_area. NOT PICKING UP EDITED TEXT!!
-                    var content = div_content.querySelector('#text_area').innerHTML;
+                    // Get edited content from text_area.
+                    var content = div_content.querySelector('#text_area').value;
                     // Test purposes
                     console.log(content);
 
@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     fetch(`/posts/${post_id}`,   {
                         method: 'POST',
                         body: JSON.stringify({
-                            //content: "EDITED"
                             content: `${content}`
                         })
                     })
