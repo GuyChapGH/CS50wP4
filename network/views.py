@@ -184,8 +184,8 @@ def post(request, post_id):
 
     # Return post contents
     if request.method == "GET":
-        return JsonResponse({"error": "Not completed this yet."})
-        # return JsonResponse(post.serialize())
+        # return JsonResponse({"error": "in progress."}, status=400)
+        return JsonResponse(post.serialize())
 
     # Update content of post
     elif request.method == "POST":
@@ -195,8 +195,18 @@ def post(request, post_id):
         post.save()
         return JsonResponse({"message": "Post successfully updated."}, status=201)
 
+    # EXPERIMENT to see if likes can be updated. Need to handle failure case.
+    elif request.method == "PUT":
+        data = json.loads(request.body)
+        if data.get("likes_flag") is True:
+            post.add_like()
+        if data.get("likes_flag") is False:
+            post.subtract_like()
+        post.save()
+        return JsonResponse({"message": "Likes successfully updated."}, status=201)
+
     else:
-        return JsonResponse({"error": "GET or POST request required."}, status=400)
+        return JsonResponse({"error": "GET, PUT or POST request required."}, status=400)
 
 
 def login_view(request):

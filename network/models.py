@@ -21,6 +21,14 @@ class Post(models.Model):
     def subtract_like(self):
         self.likes -= 1
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "content": self.content,
+            "timestamp": self.timestamp.strftime("%b %-d %Y, %-I: %M %p"),
+            "likes": self.likes
+        }
+
 
 class Follows(models.Model):
     follower = models.ForeignKey("User", on_delete=models.CASCADE, related_name="following")

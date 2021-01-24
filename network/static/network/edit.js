@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Test purposes
                     console.log(content);
 
-                    //POST request
+                    //POST request to update content in post
                     fetch(`/posts/${post_id}`,   {
                         method: 'POST',
                         body: JSON.stringify({
@@ -82,6 +82,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(result => {
                         console.log(result);
                     });
+
+                    // GET request to retrieve content from post
+                    fetch(`/posts/${post_id}`,  {
+                        method: 'GET'
+                    })
+                    .then(response => response.json())
+                    .then(post => {
+                        console.log(post.content);
+                    });
+
+                    //EXPERIMENT to see if likes can be updated
+                    fetch(`/posts/${post_id}`,  {
+                        method: 'PUT',
+                        body: JSON.stringify({
+                            likes_flag: true
+                        })
+                    })
 
 
 
