@@ -81,16 +81,26 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(response => response.json())
                     .then(result => {
                         console.log(result);
-                    });
 
-                    // GET request to retrieve content from post
-                    fetch(`/posts/${post_id}`,  {
-                        method: 'GET'
-                    })
-                    .then(response => response.json())
-                    .then(post => {
-                        console.log(post.content);
-                    });
+
+                    // GET request to retrieve content from post. Issue: this should follow POST request
+                    // so that post.content has been updated. Doesn't always seem to work.
+                        fetch(`/posts/${post_id}`,  {
+                            method: 'GET'
+                        })
+                        .then(response => response.json())
+                        .then(post => {
+                            console.log(post.content);
+
+                    // Create paragraph element and set innerHTML to post.content
+                            var edit_post_content = document.createElement("p");
+                            edit_post_content.innerHTML = '<b>' + post.content + '</b>';
+                    // Replace text_area with new paragraph element
+                            text_area.parentNode.replaceChild(edit_post_content, text_area);
+                    // Remove save_btn
+                            save_btn.remove();
+                        });
+                });
 
                     //EXPERIMENT to see if likes can be updated
                     fetch(`/posts/${post_id}`,  {
