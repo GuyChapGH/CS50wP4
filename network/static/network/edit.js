@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Test purposes
                     console.log(content);
 
-                    //POST request to update content in post
+                    //POST request to update content in post. Issue: doesn't always seem to update.
                     fetch(`/posts/${post_id}`,   {
                         method: 'POST',
                         body: JSON.stringify({
@@ -83,8 +83,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         console.log(result);
 
 
-                    // GET request to retrieve content from post. Issue: this should follow POST request
-                    // so that post.content has been updated. Doesn't always seem to work.
+                    // GET request to retrieve content from post. This should follow POST request
+                    // so that post.content has been updated.
                         fetch(`/posts/${post_id}`,  {
                             method: 'GET'
                         })
@@ -93,8 +93,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             console.log(post.content);
 
                     // Create paragraph element and set innerHTML to post.content
+                    // Set id of paragraph element to post_content so can edit more than once.
                             var edit_post_content = document.createElement("p");
+                            edit_post_content.id = "post_content";
                             edit_post_content.innerHTML = '<b>' + post.content + '</b>';
+
                     // Replace text_area with new paragraph element
                             text_area.parentNode.replaceChild(edit_post_content, text_area);
                     // Remove save_btn
