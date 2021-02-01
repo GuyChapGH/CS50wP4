@@ -100,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     // Replace text_area with new paragraph element
                             text_area.parentNode.replaceChild(edit_post_content, text_area);
+
                     // Remove save_btn
                             save_btn.remove();
                         });
