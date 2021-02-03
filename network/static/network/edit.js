@@ -9,11 +9,23 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log(posts_arr);
 
     // Iterate through array of allpost divs
-    posts_arr.forEach(add_edit_link);
+    posts_arr.forEach(add_buttons);
 
-    // Add edit link to each allpost div.
-    function add_edit_link (div_content) {
+    // Add like button to each post and edit button to those posts where post is from the current_user.
+    function add_buttons(div_content) {
 
+        // Add like button to all posts
+        // Create like_btn
+        const like_btn = document.createElement("button");
+        like_btn.innerHTML = "Like";
+        like_btn.className = "btn btn-sm btn-outline-primary";
+
+        // Append button to allpost div
+        div_content.querySelector('#likes').appendChild(like_btn);
+
+        //like_btn Onclick function goes here...
+
+        // Add edit button to those posts where post is from current_user
         // Get text content of post_user from allposts div
         const post_user = div_content.querySelector('#post_user').textContent;
         //console.log(post_user);
