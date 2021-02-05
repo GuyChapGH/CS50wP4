@@ -24,6 +24,53 @@ document.addEventListener('DOMContentLoaded', function() {
         div_content.querySelector('#likes').appendChild(like_btn);
 
         //like_btn Onclick function goes here...
+        like_btn.addEventListener('click', function()   {
+            //Capture post id from index.html
+            let id = div_content.querySelector('#post').dataset.id;
+            // console.log("The post id is: " + id);
+
+            //Ensure post_id is integer and not string
+            let post_id = parseInt(id);
+
+            // Test if press Like button
+            if (like_btn.innerHTML === "Like")  {
+
+                //Likes can be updated by add_like
+                fetch(`/posts/${post_id}`,  {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        likes_flag: true
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    // Change button label to Unlike
+                    like_btn.innerHTML = "Unlike";
+                });
+
+            }
+            // Test if press Unlike button
+            else if (like_btn.innerHTML === "Unlike")   {
+
+                //Likes can be updated by subtract_like
+                fetch(`/posts/${post_id}`,  {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                        likes_flag: false
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    //Change button label to Like
+                    like_btn.innerHTML = "Like";
+                });
+
+            }
+        })
+
+
 
         // Add edit button to those posts where post is from current_user
         // Get text content of post_user from allposts div
@@ -73,11 +120,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 //Add on click function
                 save_btn.addEventListener('click', function()   {
                     //Capture post id from index.html
-                    id = div_content.querySelector('#post').dataset.id;
+                    let id = div_content.querySelector('#post').dataset.id;
                     // console.log("The post id is: " + id);
 
                     //Ensure post_id is integer and not string
-                    post_id = parseInt(id);
+                    let post_id = parseInt(id);
                     // Get edited content from text_area.
                     var content = div_content.querySelector('#text_area').value;
                     // Test purposes
@@ -117,15 +164,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             save_btn.remove();
                         });
                 });
-
-                    //EXPERIMENT to see if likes can be updated
-                    fetch(`/posts/${post_id}`,  {
-                        method: 'PUT',
-                        body: JSON.stringify({
-                            likes_flag: true
-                        })
-                    })
-
 
 
                 })
