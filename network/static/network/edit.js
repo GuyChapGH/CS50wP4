@@ -47,9 +47,35 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log(result);
                     // Change button label to Unlike
                     like_btn.innerHTML = "Unlike";
+
+                // GET likes count
+                // GET request to retrieve likes count from post. This should follow PUT request
+                // so that likes count has been updated.
+                    fetch(`/posts/${post_id}`,  {
+                        method: 'GET'
+                    })
+                    .then(response => response.json())
+                    .then(post => {
+                        console.log(post.likes);
+
+                // Create p element and set innerHTML to likes count
+                        const likes_pElem = document.createElement("p");
+                        likes_pElem.innerHTML = 'Likes: ' + post.likes;
+
+                        // Get DOM reference to likes paragraph from HTML page
+                        const likes_para = div_content.querySelector('#likes_para');
+
+                // Replace likes_para with likes p element
+                        likes_para.parentNode.replaceChild(likes_pElem, likes_para);
+                // Set id of p element to likes_para so can press like button more than once.
+                        likes_pElem.id = "likes_para";
+
+                    });
+
                 });
 
             }
+
             // Test if press Unlike button
             else if (like_btn.innerHTML === "Unlike")   {
 
@@ -65,11 +91,35 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log(result);
                     //Change button label to Like
                     like_btn.innerHTML = "Like";
-                });
 
-            }
+                    // GET likes count
+                    // GET request to retrieve likes count from post. This should follow PUT request
+                    // so that likes count has been updated.
+                        fetch(`/posts/${post_id}`,  {
+                            method: 'GET'
+                        })
+                        .then(response => response.json())
+                        .then(post => {
+                            console.log(post.likes);
+
+                    // Create p element and set innerHTML to likes count
+                            const likes_pElem = document.createElement("p");
+                            likes_pElem.innerHTML = 'Likes: ' + post.likes;
+
+                            // Get DOM reference to likes paragraph from HTML page
+                            const likes_para = div_content.querySelector('#likes_para');
+
+                    // Replace likes_para with likes p element
+                            likes_para.parentNode.replaceChild(likes_pElem, likes_para);
+                    // Set id of p element to likes_para so can press like button more than once.
+                            likes_pElem.id = "likes_para";
+
+                        });
+
+                    });
+
+                }
         })
-
 
 
         // Add edit button to those posts where post is from current_user
