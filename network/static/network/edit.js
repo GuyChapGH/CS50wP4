@@ -38,6 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 //Likes can be updated by add_like
                 fetch(`/posts/${post_id}`,  {
                     method: 'PUT',
+                    credentials: 'same-origin',
+                    headers:    {
+                        'X-CSRFToken': csrftoken,
+                    },
                     body: JSON.stringify({
                         likes_flag: true
                     })
@@ -52,7 +56,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 // GET request to retrieve likes count from post. This should follow PUT request
                 // so that likes count has been updated.
                     fetch(`/posts/${post_id}`,  {
-                        method: 'GET'
+                        method: 'GET',
+                        credentials: 'same-origin',
+                        headers:    {
+                            'X-CSRFToken': csrftoken,
+                        }
                     })
                     .then(response => response.json())
                     .then(post => {
@@ -180,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Test purposes
                     console.log(content);
 
-                    //POST request to update content in post. Issue: doesn't always seem to update.
+                    //POST request to update content in post.
                     fetch(`/posts/${post_id}`,   {
                         method: 'POST',
                         body: JSON.stringify({
@@ -229,5 +237,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     }
+
+//Code from Django docs to handle CSRF token in Fetch calls
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
 
 });

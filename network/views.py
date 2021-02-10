@@ -6,7 +6,6 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonRespons
 from django.shortcuts import render
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.decorators.csrf import csrf_exempt
 
 from .models import User
 from .models import Post
@@ -172,7 +171,6 @@ def following(request):
     })
 
 
-@csrf_exempt
 @login_required
 def post(request, post_id):
 
