@@ -90,6 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 //Likes can be updated by subtract_like
                 fetch(`/posts/${post_id}`,  {
                     method: 'PUT',
+                    credentials: 'same-origin',
+                    headers:    {
+                        'X-CSRFToken': csrftoken,
+                    },
                     body: JSON.stringify({
                         likes_flag: false
                     })
@@ -104,7 +108,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     // GET request to retrieve likes count from post. This should follow PUT request
                     // so that likes count has been updated.
                         fetch(`/posts/${post_id}`,  {
-                            method: 'GET'
+                            method: 'GET',
+                            credentials: 'same-origin',
+                            headers:    {
+                                'X-CSRFToken': csrftoken,
+                            }
                         })
                         .then(response => response.json())
                         .then(post => {
@@ -191,6 +199,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     //POST request to update content in post.
                     fetch(`/posts/${post_id}`,   {
                         method: 'POST',
+                        credentials: 'same-origin',
+                        headers:    {
+                            'X-CSRFToken': csrftoken,
+                        },
                         body: JSON.stringify({
                             content: `${content}`
                         })
@@ -203,7 +215,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     // GET request to retrieve content from post. This should follow POST request
                     // so that post.content has been updated.
                         fetch(`/posts/${post_id}`,  {
-                            method: 'GET'
+                            method: 'GET',
+                            credentials: 'same-origin',
+                            headers:    {
+                                'X-CSRFToken': csrftoken,
+                            }
                         })
                         .then(response => response.json())
                         .then(post => {
