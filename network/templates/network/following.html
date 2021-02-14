@@ -1,4 +1,5 @@
 {% extends "network/layout.html" %}
+{% load static %}
 
 {% block body %}
 
@@ -7,10 +8,11 @@
     {% for post in posts_following %}
 
     <div class = "allpost">
-        <a href="{% url 'profile' post.user.id %}">{{post.user.username}}</a><br>
-        <b>{{post.content}}</b> <br>
-        {{post.timestamp}} <br>
-        <p>Likes: {{post.likes}}</p>
+        <a id="post_user" href="{% url 'profile' post.user.id %}">{{post.user.username}}</a><br>
+        <span id="post" data-id="{{post.id}}"></span><br>
+        <b id="post_content">{{post.content}}</b>
+        <p>{{post.timestamp}}</p><span id="likes"></span>
+        <p id="likes_para">Likes: {{post.likes}}</p>
     </div>
 
     {% empty %}
@@ -31,5 +33,8 @@
     </nav>
     {% endif %}
 
+    {% block script %}
+        <script src="{% static 'network/edit.js' %}"></script>
+    {% endblock %}
 
 {% endblock %}
